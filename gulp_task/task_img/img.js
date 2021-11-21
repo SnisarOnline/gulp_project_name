@@ -14,7 +14,6 @@ const notify    = require('gulp-notify'); // просто красивый вы�
 const livereload = require('gulp-livereload'); // Livereload для Gulp работает через плагин в браузере
 const watch     = require('gulp-watch');   //Следит за всеми указанными файлами или целыми директориями и в случае каких-либо изменений выполняет описанные в конфигурациях таски.
 //const path      = require('path');          // Полные пути к файлам
-//const connect   = require('gulp-connect');  // Gulp plugin to run a webserver (with LiveReload)
 //const cached    = require('gulp-cached');  // фильтер файлов сравнением содержимо го  https://www.npmjs.com/package/gulp-cached
 // 4 img
 //const newer     = require('gulp-newer');       // фильтер для картинок   - https://www.npmjs.com/package/gulp-newer
@@ -41,7 +40,6 @@ module.exports = function(options) {
       imagemin({optimizationLevel: 5}),  // Минификация изображений  options {optimizationLevel: 5}
       gulp.dest(options.src_project),    // Куда записываем
       debug({title: "Записали : "}),    // для отладки, и сколько обработано
-      //connect.reload()
       livereload()
     ).on('error', notify.onError(function (err) {
         return {
@@ -75,7 +73,6 @@ gulp.task('img', function() {
     imagemin({optimizationLevel: 5}),  // Минификация изображений  options {optimizationLevel: 5}
     gulp.dest(imgDirMini),    // Куда записываем
     debug({title:"Записали : "}), // для отладки, и сколько обработано
-    //connect.reload()
     livereload()
   ).on('error', notify.onError(function(err){
       return  {

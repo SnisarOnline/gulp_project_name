@@ -15,7 +15,6 @@ const gulp      = require('gulp'); // Сообственно Gulp JS;
 //const livereload = require('gulp-livereload'); // Livereload для Gulp работает через плагин в браузере
 ////const watch     = require('gulp-watch');  //Следит за всеми указанными файлами или целыми директориями и в случае каких-либо изменений выполняет описанные в конфигурациях таски.
 ////const path      = require('path');    // Полные пути к файлам
-////const connect   = require('gulp-connect');  // Gulp plugin to run a webserver (with LiveReload)
 
 const del       = require('del'); // для удаления - Зачистки    Error: Cannot find module 'del'
 
@@ -25,10 +24,8 @@ const del       = require('del'); // для удаления - Зачистки 
 //-----
 module.exports = function(options) {
   return function(callback) {
-
     //return del( 'html / brain_akademy / brain_akademy_DZ / 09 / ' )+console.log(" Удаленно : " +  'html / brain_akademy / brain_akademy_DZ / 09 / ' );
     return del( options.src_project ) + console.log(" Удаленно : " + options.src_project );
-
   };
 };
 

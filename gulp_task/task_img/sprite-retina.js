@@ -15,7 +15,6 @@ const debug     = require('gulp-debug'); // для отладки   https://www.
 const livereload = require('gulp-livereload'); // Livereload для Gulp работает через плагин в браузере
 const watch     = require('gulp-watch');  //Следит за всеми указанными файлами или целыми директориями и в случае каких-либо изменений выполняет описанные в конфигурациях таски.
 //const path      = require('path');    // Полные пути к файлам
-//const connect   = require('gulp-connect');  // Gulp plugin to run a webserver (with LiveReload)
 
 // 4 img
 const imagemin  = require('gulp-imagemin'); // Сжатие изображений    https://github.com/sindresorhus/gulp-imagemin
