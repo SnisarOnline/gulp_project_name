@@ -1,21 +1,21 @@
+'use strict';
 /**
  * User: igor
  * Date: 12.04.2017(Time:1:47)
  */
-'use strict';
 //----------------------------------------------
-//                  Plagins
+//                  Plugins
 //----------------------------------------------
 
 const gulp      = require('gulp'); // Сообственно Gulp JS;
 const multipipe = require('multipipe');   //для удобного отлова ошибок последовательностью https://www.npmjs.com/package/multipipe
 const debug     = require('gulp-debug'); // для отладки   https://www.npmjs.com/package/gulp-debug
 const notify    = require('gulp-notify'); // просто красивый вывод событий  https://www.npmjs.com/package/gulp-notify
-const cached    = require('gulp-cached'); // фильтер файлов сравнением содержимо го  https://www.npmjs.com/package/gulp-cached
-const livereload = require('gulp-livereload'); // Livereload для Gulp работает через плагин в браузере
-//const watch     = require('gulp-watch');  //Следит за всеми указанными файлами или целыми директориями и в случае каких-либо изменений выполняет описанные в конфигурациях таски.
-//const path      = require('path');    // Полные пути к файлам
-//const htmlmin   = require('gulp-htmlmin');  // Минификация html.  https://github.com/jonschlinkert/gulp-htmlmin
+const fileinclude = require('gulp-file-include'); // https://www.npmjs.com/package/gulp-file-include
+// const htmlmin   = require('gulp-htmlmin');  // Минификация html.  https://github.com/jonschlinkert/gulp-htmlmin
+// const cached    = require('gulp-cached'); // фильтер файлов сравнением содержимо го  https://www.npmjs.com/package/gulp-cached
+// const path      = require('path');    // Полные пути к файлам
+// const livereload = require('gulp-livereload'); // Livereload для Gulp работает через плагин в браузере
 
 //----------------------------------------------
 //  + 1 HTML
@@ -23,15 +23,16 @@ const livereload = require('gulp-livereload'); // Livereload для Gulp раб�
 //-----
 module.exports = function(options) {
   return function(callback) {
-
     return multipipe(
-      gulp.src( options.src_dev ),  // откуда берем
+      gulp.src( options.watch.html ),  // откуда берем
       debug({title: "Нашли : "}), // количество для отладки
-      cached( options.src_dev ),  //откуда будут изменения для релоуда, сравнением содержимого работает через "watch"
-      //   htmlmin({collapseWhitespace: true}),    // Минификация html.
-      gulp.dest( options.src_project ),       // куда пихаем
+      // cached( options.src.html ),  //откуда будут изменения для релоуда, сравнением содержимого работает через "watch"
+      fileinclude(),
+      // htmlmin({collapseWhitespace: true}),    // Минификация html.
+      gulp.dest( options.build.html ),       // куда пихаем
       debug({title: "Записали : "}),    // количество для отладки
-      livereload()      // Работает через плагин и 1 строчку в наблюдении и без РНР
+      // livereload() //Сейчас работает через browserSync. Старая версия через(livereload/connect) и 1 строчку в наблюдении.
+      options.browserSync.stream(), // Обновление страници у browserSync
     ).on('error', notify.onError(function (err) {
         return {
           title  : 'html',
@@ -59,7 +60,7 @@ gulp.task('html', function() {
     //htmlmin({collapseWhitespace: true}),    // Минификация html.
     gulp.dest(htmlDirMini),       // Обработанные
     debug({title:"Записали : "}),    // количество для отладки
-    livereload()      // Работает через плагин и 1 строчку в наблюдении и без РНР
+    // livereload() //Сейчас работает через browserSync. Старая версия через(livereload/connect) и 1 строчку в наблюдении.
   ).on('error', notify.onError(function(err){
       return  {
         title:'html',

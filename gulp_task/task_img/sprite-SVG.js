@@ -1,21 +1,22 @@
+'use strict';
 /**
  * User: igor
  * Date: 12.04.2017(Time:2:00)
  */
 //----------------------------------------------
-//                  Plagins
+//                  Plugins
 //----------------------------------------------
 
 const gulp      = require('gulp'); // Сообственно Gulp JS;
-const multipipe = require('multipipe');   //для удобного отлова ошибок последовательностью https://www.npmjs.com/package/multipipe
+// const multipipe = require('multipipe');   //для удобного отлова ошибок последовательностью https://www.npmjs.com/package/multipipe
 const debug     = require('gulp-debug'); // для отладки   https://www.npmjs.com/package/gulp-debug
-const notify    = require('gulp-notify'); // просто красивый вывод событий  https://www.npmjs.com/package/gulp-notify
-const livereload = require('gulp-livereload'); // Livereload для Gulp работает через плагин в браузере
-const watch     = require('gulp-watch');   //Следит за всеми указанными файлами или целыми директориями и в случае каких-либо изменений выполняет описанные в конфигурациях таски.
-//const path      = require('path');          // Полные пути к файлам
-//const cached    = require('gulp-cached');  // фильтер файлов сравнением содержимо го  https://www.npmjs.com/package/gulp-cached
+// const notify    = require('gulp-notify'); // просто красивый вывод событий  https://www.npmjs.com/package/gulp-notify
+// const livereload = require('gulp-livereload'); // Livereload для Gulp работает через плагин в браузере
+// const watch     = require('gulp-watch');   //Следит за всеми указанными файлами или целыми директориями и в случае каких-либо изменений выполняет описанные в конфигурациях таски.
+// const path      = require('path');          // Полные пути к файлам
+// const cached    = require('gulp-cached');  // фильтер файлов сравнением содержимо го  https://www.npmjs.com/package/gulp-cached
 // 3 SVG
-const rename  = require("gulp-rename");     // add a suffix or prefix     https://www.npmjs.com/package/gulp-rename/
+// const rename  = require("gulp-rename");     // add a suffix or prefix     https://www.npmjs.com/package/gulp-rename/
 
 const cheerio = require('gulp-cheerio');  // - удаление лишних атрибутов из svg
 const replace = require('gulp-replace');  // - фиксинг некоторых багов, об этом ниже

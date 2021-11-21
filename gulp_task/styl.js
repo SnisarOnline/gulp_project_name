@@ -1,29 +1,27 @@
+'use strict';
 /**
  * User: igor
  * Date: 12.04.2017(Time:2:01)
  */
-'use strict';
 //----------------------------------------------
-//                  Plagins
+//                  Plugins
 //----------------------------------------------
 
-const gulp      = require('gulp'); // Сообственно Gulp JS;
+const gulp = require('gulp'); // Сообственно Gulp JS;
 const multipipe = require('multipipe');   //для удобного отлова ошибок последовательностью https://www.npmjs.com/package/multipipe
-const debug     = require('gulp-debug'); // для отладки   https://www.npmjs.com/package/gulp-debug
-const notify    = require('gulp-notify'); // просто красивый вывод событий  https://www.npmjs.com/package/gulp-notify
-const cached    = require('gulp-cached'); // фильтер файлов сравнением содержимо го  https://www.npmjs.com/package/gulp-cached
-const livereload = require('gulp-livereload'); // Livereload для Gulp работает через плагин в браузере
-//const watch     = require('gulp-watch');  //Следит за всеми указанными файлами или целыми директориями и в случае каких-либо изменений выполняет описанные в конфигурациях таски.
-//const path      = require('path');    // Полные пути к файлам
+const debug = require('gulp-debug'); // для отладки   https://www.npmjs.com/package/gulp-debug
+const notify = require('gulp-notify'); // просто красивый вывод событий  https://www.npmjs.com/package/gulp-notify
+// const cached = require('gulp-cached'); // фильтер файлов сравнением содержимо го  https://www.npmjs.com/package/gulp-cached
+// const livereload = require('gulp-livereload'); // Livereload для Gulp работает через плагин в браузере
+
 
 // 2 css
-const sass = require('gulp-sass')(require('sass'));
 // const stylus    = require('gulp-stylus'); // Плагин для Stylus ( Sass смысла нету потому что его файлы Stylus - тоже хавает)
 // const nib       = require('nib');  // Плагин для Stylus (библиотека миксинов)
+const sass = require('gulp-sass')(require('sass')); // https://www.npmjs.com/package/gulp-sass
 const autoprefixer = require('gulp-autoprefixer');//  добавляем префиксы(gulp-myth - хуже чем автопрефиксер)
-//const csso      = require('gulp-csso'); // Минификация CSS      https://github.com/ben-eb/gulp-csso
-//const shorthand = require('gulp-shorthand'); // обьединение свойст    https://github.com/kevva/gulp-shorthand
-///var/www/node_modules/shrthnd/lib/shorthanders/margin-padding.js  тут была закоментирована и добавлена строка
+// const csso = require('gulp-csso'); // Минификация CSS   https://github.com/ben-eb/gulp-csso
+const sourcemaps = require('gulp-sourcemaps'); // https://www.npmjs.com/package/gulp-sourcemaps
 
 
 //----------------------------------------------
@@ -31,35 +29,47 @@ const autoprefixer = require('gulp-autoprefixer');//  добавляем пре�
 //     (задача через заглушку, без заглушки - внизу )
 //-----
 
-module.exports = function(options) {
-  return function(callback) {
+module.exports = function (options) {
+  return function (callback) {
 
     return multipipe(
-      gulp.src(options.src_dev),    // Указываем где искать
+      gulp.src(options.watch.styles),    // Указываем где искать
       debug({title: "Нашли : "}),  // количество для отладки
-      // cached(options.src_dev),     // фильтер файлов сравнением содержимого работает через "watch" отключать если через 1 файл переподключаем
-      // stylus({
-      //   define : {url: require('stylus').resolver()},
-      //   'resolve url': true,
-      //   //compress: true,       //Убираем коментарии + минимизировать размер css
-      //   'include css': true,
-      //   use : [nib()]         // stylus({use:[nib()]}) ето пример подключения библиотеки
-      // }),
-      sass(),     // https://www.npmjs.com/package/gulp-sass
-      // shorthand(),  // изза него ИНОГДА невыводит полный путь к месту ошибки -  обьединение свойст в 1 правило
+      // cached(options.src.styles),     // фильтер файлов сравнением содержимого работает через "watch" отключать если через 1 файл переподключаем
+      /*
+      stylus({
+        define : {url: require('stylus').resolver()},
+        'resolve url': true,
+        //compress: true,       //Убираем коментарии + минимизировать размер css
+        'include css': true,
+        use : [nib()]         // stylus({use:[nib()]}) ето пример подключения библиотеки
+      }),
+      */
+      sourcemaps.init(),
+      sass({
+        outputStyle: 'expanded'
+      }),
       autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], {cascade: true}), // Создаем префиксы
-      //csso(),    // минимизировать размер css
-      gulp.dest(options.src_project),   // Куда записываем css
+      /*
+      csso({
+        restructure: false,
+        sourceMap: true,
+        debug: true
+      }),    // минимизировать размер css
+      */
+      sourcemaps.write(),
+      gulp.dest(options.build.styles),   // Куда записываем css
       debug({title: "Записали : "}),  // количество для отладки
-      livereload()      // Работает через плагин и 1 строчку в наблюдении и без РНР
+      // livereload() //Сейчас работает через browserSync. Старая версия через(livereload/connect) и 1 строчку в наблюдении.
+      options.browserSync.stream({stream: true}), // Обновление страници у browserSync
     ).on('error', notify.onError(function (err) {
-        return {
-          title  : 'styles / Css',
-          message: err.message,
-          sound  : true
-          //icon: path.join(__dirname, 'coulson.jpg')
-        };
-      }));
+      return {
+        title: 'styles / Css',
+        message: err.message,
+        sound: true
+        //icon: path.join(__dirname, 'coulson.jpg')
+      };
+    }));
   };
 };
 
@@ -87,7 +97,7 @@ gulp.task('css', function() {
     //csso(),                // минимизировать размер css
     gulp.dest(cssDirMini),   // Куда записываем css
     debug({title:"Записали : "}), // количество для отладки
-    livereload()      // Работает через плагин и 1 строчку в наблюдении и без РНР
+    // livereload() //Сейчас работает через browserSync. Старая версия через(livereload/connect) и 1 строчку в наблюдении.
   ).on('error', notify.onError(function(err){
       return  {
         title:'styles / Css',
@@ -97,5 +107,4 @@ gulp.task('css', function() {
       };
     }))
 });
-
 */
