@@ -47,7 +47,7 @@ module.exports = function (options) {
       gulp.dest(options.build.image),    // Куда записываем
       debug({title: "Записали : "}),    // для отладки, и сколько обработано
       // livereload() //Сейчас работает через browserSync. Старая версия через(livereload/connect) и 1 строчку в наблюдении.
-      options.browserSync.stream(), // Обновление страници у browserSync
+      options.browserSync.stream(), // Обновление страници у browserSync todo: переписать без етой строки
     ).on('error', notify.onError(function (err) {
       return {
         title: 'Images',

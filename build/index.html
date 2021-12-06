@@ -6,19 +6,23 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>GULP-Task manager</title>
-    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="scss/style.css">
 </head>
 <body>
-
 <header>
     <h1>Header 2</h1>
 </header>
 
 
-<p>Lorem ipsum dolor sit amet.</p>
-<p>Lorem ipsum dolor sit amet.</p>
 <img src="img/Front-end.gif" alt="">
 
+<p>Lorem ipsum dolor sit amet.</p>
+<p>Lorem ipsum dolor sit amet.</p>
+
+<div id="map" style="width: 100%;height: 400px;"></div>
+
+<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<script src="https://maps.googleapis.com/maps/api/js?callback=initMap&v=weekly" async ></script>
 <script src="js/index.js"></script>
 </body>
 </html>

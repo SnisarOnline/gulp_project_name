@@ -61,7 +61,7 @@ module.exports = function (options) {
       gulp.dest(options.build.styles),   // Куда записываем css
       debug({title: "Записали : "}),  // количество для отладки
       // livereload() //Сейчас работает через browserSync. Старая версия через(livereload/connect) и 1 строчку в наблюдении.
-      options.browserSync.stream({stream: true}), // Обновление страници у browserSync
+      options.browserSync.stream({stream: true}), // Обновление страници у browserSync todo: переписать без етой строки
     ).on('error', notify.onError(function (err) {
       return {
         title: 'styles / Css',

@@ -14,48 +14,49 @@ const browserSync = require('browser-sync').create(); // https://browsersync.io/
 //                global variables
 //----------------------------------------------
 //  variables projects
-const full_path_url = "/home/user/Project/BeetrootAcademy--all_lessons/34-Gulp"; // linux console $pwd
-const site_name = `${full_path_url}/gulp_project_name`;
-const src = "src";
-const build = "build";
-const version = "v.0.0.1";
+const site_name = `.`; // in linux console $pwd
+const src = `${site_name}/src`;
+const build = `${site_name}/build`;
+const version = "";
 
 const paths = {
   src: { // Откуда Берем = Среда разработки
-    main: `${site_name}/${src}`,
-    html: `${site_name}/${src}/html/`,
-    styles: `${site_name}/${src}/css/`, // styl_dev - компилируем только 1 файл
-    scripts: `${site_name}/${src}/js/index.js`, // компилируем только 1 файл
-    image: `${site_name}/${src}/img/`,
-    fonts: `${site_name}/${src}/fonts/`, // формат уже указан
+    main: `${src}`,
+    html: `${src}/html/`,
+    styles: `${src}/scss/`, // styl_dev - компилируем только 1 файл
+    scripts: `${src}/js/index.js`, // компилируем только 1 файл
+    image: `${src}/img/`,
+    fonts: `${src}/fonts/`, // формат уже указан
   },
   build: { // Куда Записываем = Готовый Проект
-    main: `${site_name}/${build}/${version}`,
-    html: `${site_name}/${build}/${version}/`,
-    styles: `${site_name}/${build}/${version}/css/`,
-    scripts: `${site_name}/${build}/${version}/js/`,
-    image: `${site_name}/${build}/${version}/img/`,
-    fonts: `${site_name}/${build}/${version}/fonts/`, // формат уже указан
+    main: `${build}/${version}`,
+    html: `${build}/${version}/`,
+    styles: `${build}/${version}/css/`,
+    scripts: `${build}/${version}/js/`,
+    image: `${build}/${version}/img/`,
+    fonts: `${build}/${version}/fonts/`, // формат уже указан
   },
   watch: { // следим за файлами
-    html: [`${site_name}/${src}/**/*.html`, `!${site_name}/${src}/html/**/_*.html`],
-    styles: `${site_name}/${src}/css/**/*.{css,styl,scss,sass}`,
-    scripts: `${site_name}/${src}/js/**/*.js`,
-    image: `${site_name}/${src}/img/**/*.{jpeg,jpg,png,svg,gif,ico,icon,webp}`,
-    fonts: `${site_name}/${src}/fonts/`, // формат уже указан
+    html: [`${src}/**/*.html`, `!${src}/html/**/_*.html`],
+    styles: [`${src}/scss/**/*.{css,styl,scss,sass}`, `!${src}/css/**/*.{css,styl,scss,sass}`],
+    scripts: `${src}/js/**/*.js`,
+    image: `${src}/img/**/*.{jpeg,jpg,png,svg,gif,ico,icon,webp}`,
+    fonts: `${src}/fonts/`, // формат уже указан
   },
   gulp_task: 'gulp_task' // папка хранения разных задач для gulp
 };
 
+
+// todo: Переписать под новую структуру
 // src_dev: Откуда Берем = Среда разработки
-const s_retina_dev_src = `${site_name}/${src}/sprite/**/*.{png,jpeg,jpg}`;
-const s_retina_dev_styl = `${site_name}/${src}/css/`;
-const s_retina_dev_img = `${site_name}/${src}/img/`;
-const svg_dev = `${site_name}/${src}/img/**/*.svg`;
+const s_retina_dev_src = `${src}/sprite/**/*.{png,jpeg,jpg}`;
+const s_retina_dev_styl = `${src}/scss/`;
+const s_retina_dev_img = `${src}/img/`;
+const svg_dev = `${src}/img/**/*.svg`;
 
 //src_project: Куда Записываем = Готовый Проект
-const s_retina_project_img = `${site_name}/${build}/${version}/img/`;
-const svg_project = `${site_name}/${build}/${version}/img/`;
+const s_retina_project_img = `${build}/${version}/img/`;
+const svg_project = `${build}/${version}/img/`;
 
 // -------------------------------------------------------------------------------------
 // ------------------------------ lazyLoading tasks
@@ -96,10 +97,14 @@ lazyRequireTask("3_js", `./${paths.gulp_task}/js`, {});
 //-----
 lazyRequireTask("4_img_mini", `./${paths.gulp_task}/task_img/img`, {});
 //----------------------------------------------
-//  + Шрифты
+//  + Шрифты - находим otf/ttf и генерим из них woff/woff2
 //     (задача через заглушку, без заглушки - в нутри файла )
 //-----
 lazyRequireTask("5_fonts", `./${paths.gulp_task}/fonts`, {});
+//----------------------------------------------
+//  todo: задача для генерирование файла с подключением woff/woff2
+//-----
+lazyRequireTask("5.1_fonts", `./${paths.gulp_task}/fonts`, {});
 //----------------------------------------------
 //  + создаем retina и спрайты и минимизируем все ето
 //     (задача через заглушку, без заглушки - в нутри файла )
@@ -119,7 +124,7 @@ lazyRequireTask("7_SVG_mini", `./${paths.gulp_task}/task_img/sprite-SVG`, {
   src_project: svg_project
 });
 //----------------------------------------------
-//  - авто подмена путей к файлам (спрайтам, стилям, т.п. подключениям)
+//  todo: авто подмена путей к файлам (спрайтам, стилям, т.п. подключениям)
 //-----
 
 
@@ -138,7 +143,7 @@ gulp.task("__watch", function () {
   // livereload.listen();     // Старая версия. Сейчас работает через browserSync
 });
 
-// Обновление страницы
+// Старая версия Обновления страницы. Сейчас работает через __browserSync
 /*
 gulp.task("__connect", function () {
   // Старая версия обновления страници через(livereload and gulp-connect) и 1 строчку в наблюдении.
@@ -150,7 +155,7 @@ gulp.task("__connect", function () {
 */
 
 gulp.task("__browserSync", function () {
-  // BrowserSync - Новое обновление страницы вместо livereload
+  // BrowserSync - бновление страницы вместо livereload
   browserSync.init({
     server: {
       baseDir: paths.build.html
@@ -168,23 +173,21 @@ gulp.task("__browserSync", function () {
 // ------------------------------ Used tasks
 gulp.task('default', function () {
   return (
-    console.log(" =   =   =   ="),
-      console.log(`+ Дерикт.Разработки  =>  ${paths.src.main}`),
-      console.log(` - Шрифты из .  =>  ${paths.src.fonts}`),
-      console.log(` - Стили  из . =>  ${paths.src.styles}`),
-      console.log(` - Спрайты  из . =>  ${s_retina_dev_src}`),
-      console.log(` - Картинки  из . =>  ${paths.src.image}`),
-      console.log(` - JavaScript из . =>  ${paths.src.scripts}`),
-      console.log(" -  -  -  -  -  "),
-      console.log(`+ дерикт. проектирования =>  ${paths.build.main}`),
-      console.log(` - Картинки и Спрайты в =>  ${paths.build.image}`),
-      console.log(` - Шрифты и Стили  в . =>  ${paths.build.fonts}`),
-      console.log(" =   =   =   =")
+      console.log(" =   =   =   ="),
+          console.log(`+ Дерикт.Разработки  =>  ${paths.src.main}`),
+          console.log(` - Шрифты из .  =>  ${paths.src.fonts}`),
+          console.log(` - Стили  из . =>  ${paths.src.styles}`),
+          console.log(` - Спрайты  из . =>  ${s_retina_dev_src}`),
+          console.log(` - Картинки  из . =>  ${paths.src.image}`),
+          console.log(` - JavaScript из . =>  ${paths.src.scripts}`),
+          console.log(" -  -  -  -  -  "),
+          console.log(`+ дерикт. проектирования =>  ${paths.build.main}`),
+          console.log(` - Картинки и Спрайты в =>  ${paths.build.image}`),
+          console.log(` - Шрифты и Стили  в . =>  ${paths.build.fonts}`),
+          console.log(" =   =   =   =")
   );
 });
 
-gulp.task("build", function () {
-  // todo: дописать билд проекта.
-});
+gulp.task('build', gulp.series('1_html','2_styl_css','3_js','4_img_mini','5_fonts') );
 
 gulp.task("start", gulp.parallel('__watch', '__browserSync'));

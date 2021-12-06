@@ -32,7 +32,7 @@ module.exports = function(options) {
       gulp.dest( options.build.html ),       // куда пихаем
       debug({title: "Записали : "}),    // количество для отладки
       // livereload() //Сейчас работает через browserSync. Старая версия через(livereload/connect) и 1 строчку в наблюдении.
-      options.browserSync.stream(), // Обновление страници у browserSync
+      options.browserSync.stream(), // Обновление страници у browserSync todo: переписать без етой строки
     ).on('error', notify.onError(function (err) {
         return {
           title  : 'html',
@@ -72,41 +72,3 @@ gulp.task('html', function() {
 
  */
 
-
-
-/*
-
-//----------------------------------------------
-//                variables
-//                  (old)
-//----------------------------------------------
-//  variables projects
-
-
-var publication = "brain_akademy_DZ";
-var public_version = "09";
-//var publication = "1";
-
-//  variables assets
-var allAssets   = 'html / brain_akademy / 0_dev / ';
-var htmlDir     = 'html / brain_akademy / 0_dev / html/** /**.html';
-//var stylusDir   = 'html / brain_akademy / 0_dev / css/** /*.{styl,css,sass}';
-var stylusDir   = 'html / brain_akademy / 0_dev / css/** /styles.styl';
-var stylusDirWatch   = 'html / brain_akademy / 0_dev / css/** /*.styl';
-//var fontDir     = 'html / brain_akademy / 0_dev / css/fonts/** /*.*';
-var fontDir     = 'html / brain_akademy / 0_dev / css/fonts/** /*.{eot,otf,ttf,woff,svg,css}';
-var jsDir       = 'html / brain_akademy / 0_dev / js/** /*.js';
-var imgDir      = 'html / brain_akademy / 0_dev / img/** /*.{img,png,jpeg,jpg,gif}';
-var Sprite_Dir  = 'html / brain_akademy / 0_dev / sprite/** /*.{png,jpeg,jpg}';
-var Sprite_Styl = 'html / brain_akademy / 0_dev / css/';
-//var Sprite_IMG  = 'html / brain_akademy / 0_dev / img/';
-//  variables complete
-var allPublic_mini  = 'html / brain_akademy / brain_akademy_DZ / 09 / ';
-var htmlDirMini     = 'html / brain_akademy / brain_akademy_DZ / 09 / html /';
-var cssDirMini      = 'html / brain_akademy / brain_akademy_DZ / 09 / css /';
-var fontDirMini     = 'html / brain_akademy / brain_akademy_DZ / 09 / css /fonts/';
-var jsDirMini       = 'html / brain_akademy / brain_akademy_DZ / 09 / js /';
-var imgDirMini      = 'html / brain_akademy / brain_akademy_DZ / 09 / img /';
-
-
-  */
